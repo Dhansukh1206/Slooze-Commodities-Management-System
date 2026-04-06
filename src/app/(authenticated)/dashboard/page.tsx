@@ -4,8 +4,16 @@ import { useQuery } from "@apollo/client/react";
 import { GET_DASHBOARD_STATS } from "@/graphql/queries";
 import { TrendingUp, AlertCircle, Package } from "lucide-react";
 
+interface DashboardStatsData {
+  dashboardStats: {
+    totalValue: number;
+    lowStockCount: number;
+    totalProducts: number;
+  };
+}
+
 export default function DashboardPage() {
-  const { data, loading, error } = useQuery(GET_DASHBOARD_STATS, {
+  const { data, loading, error } = useQuery<DashboardStatsData>(GET_DASHBOARD_STATS, {
     fetchPolicy: "cache-and-network"
   });
 
@@ -24,6 +32,8 @@ export default function DashboardPage() {
       </div>
     );
   }
+
+  if (!data) return null;
 
   const { totalValue, lowStockCount, totalProducts } = data.dashboardStats;
 

@@ -9,8 +9,12 @@ import { useAuth } from "@/contexts/AuthContext";
 
 import { Product } from "@/types/product";
 
+interface ProductsData {
+  products: Product[];
+}
+
 export default function ProductsPage() {
-  const { data, loading, error } = useQuery(GET_PRODUCTS, {
+  const { data, loading, error } = useQuery<ProductsData>(GET_PRODUCTS, {
     fetchPolicy: "cache-and-network"
   });
   
@@ -38,6 +42,8 @@ export default function ProductsPage() {
     );
   }
 
+  if (!data) return null;
+  
   const handleAdd = () => {
     setEditingProduct(null);
     setIsModalOpen(true);
